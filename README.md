@@ -14,7 +14,7 @@ Thanks for you want contributing to VSCode-Jule!
 Every contribution, big or small, to Jule is greatly appreciated.
 <br><br>
 The VSCode-Jule project use issues for only bug reports and proposals. \
-To contribute, please read the [contribution guidelines](https://jule.dev/pages/contributing.html).
+To contribute, please read the [contribution guidelines](CONTRIBUTING.md).
 
 ## Code of Conduct
 
