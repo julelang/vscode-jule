@@ -18,7 +18,7 @@ To contribute, please read the [contribution guidelines](https://jule.dev/pages/
 
 ## Code of Conduct
 
-[See Code of Conduct](https://jule.dev/pages/code_of_conduct.html)
+[See Julenour Code of Conduct](https://jule.dev/pages/code_of_conduct.html)
 
 ## License
 
