@@ -1,0 +1,140 @@
+{
+	"snippet.let": {
+		"body": ["let ${1:identifier} = ${2:expression}"],
+		"description": "Immutable variable definition",
+		"prefix": "le",
+		"scope": "jule,julelang"
+	},
+	"snippet.mutlet": {
+		"body": ["mut let ${1:identifier} = ${2:expression}"],
+		"description": "Mutable variable definition",
+		"prefix": "mu",
+		"scope": "jule,julelang"
+	},
+	"snippet.const": {
+		"body": ["const ${1:identifier} = ${2:expression}"],
+		"description": "Constant variable definition",
+		"prefix": "co",
+		"scope": "jule,julelang"
+	},
+	"snippet.let.multiply": {
+		"body": ["let (${1:identifier}) = ${2:expression}"],
+		"description": "Code snippet for multiply variable definition",
+		"prefix": "let ",
+		"scope": "jule,julelang"
+	},
+	"snippet.defer": {
+		"body": ["defer {", "\t$0", "}"],
+		"description": "Code snippet for deferred block",
+		"prefix": "def",
+		"scope": "jule,julelang"
+	},
+	"snippet.else": {
+		"body": ["else {", "\t$0", "}"],
+		"description": "Code snippet for else statement",
+		"prefix": "el",
+		"scope": "jule,julelang"
+	},
+	"snippet.elseif": {
+		"body": ["else if ${1:expression} {", "\t$0", "}"],
+		"description": "Code snippet for else if statement",
+		"prefix": "elif",
+		"scope": "jule,julelang"
+	},
+	"snippet.enum": {
+		"body": ["enum ${1:identifier} {", "\t$0", "}"],
+		"description": "Code snippet for enumerator definition",
+		"prefix": "en",
+		"scope": "jule,julelang"
+	},
+	"snippet.fn.init": {
+		"body": ["fn init() {", "\t$0", "}"],
+		"description": "Code snippet for initializer function",
+		"prefix": "init",
+		"scope": "jule,julelang"
+	},
+	"snippet.fn.main": {
+		"body": ["fn main() {", "\t$0", "}"],
+		"description": "Code snippet for entry point function",
+		"prefix": "main",
+		"scope": "jule,julelang"
+	},
+	"snippet.fn.out": {
+		"body": ["out(${1:expression})"],
+		"description": "Code snippet for calling built-in out function",
+		"prefix": "ou",
+		"scope": "jule,julelang"
+	},
+	"snippet.fn.outln": {
+		"body": ["outln(${1:expression})"],
+		"description": "Code snippet for calling built-in outln function",
+		"prefix": "ou",
+		"scope": "jule,julelang"
+	},
+	"snippet.for.infinity": {
+		"body": ["for {", "\t$0", "}"],
+		"description": "Code snippet for pure infinity iteration",
+		"prefix": "for",
+		"scope": "jule,julelang"
+	},
+	"snippet.for.while_next": {
+		"body": ["for ${1:expression}; ${2:statement} {", "\t$0", "}"],
+		"description": "Code snippet for while-next",
+		"prefix": "for",
+		"scope": "jule,julelang"
+	},
+	"snippet.for.foreach": {
+		"body": ["for ${1:identifier}, ${2:identifier} in ${3:iterable} {", "\t$0", "}"],
+		"description": "Code snippet for foreach iteration",
+		"prefix": "for",
+		"scope": "jule,julelang"
+	},
+	"snippet.function": {
+		"body": ["fn ${1:identifier}(${2:parameters}) {", "\t$0", "}"],
+		"description": "Code snippet for function definition",
+		"prefix": "fn",
+		"scope": "jule,julelang"
+	},
+	"snippet.co": {
+		"body": ["co ${1:function_identifier}($0)"],
+		"description": "Code snippet for concurrency function call",
+		"prefix": "co",
+		"scope": "jule,julelang"
+	},
+	"snippet.goto": {
+		"body": ["goto ${1:label}"],
+		"description": "Code snippet for goto statement",
+		"prefix": "got",
+		"scope": "jule,julelang"
+	},
+	"snippet.if": {
+		"body": ["if ${1:expression} {", "\t$0", "}"],
+		"description": "Code snippet for if statement",
+		"prefix": "if",
+		"scope": "jule,julelang"
+	},
+	"snippet.struct": {
+		"body": ["struct ${1:identifier} {", "\t$0", "}"],
+		"description": "Code snippet for structure definition",
+		"prefix": "stru",
+		"scope": "jule,julelang"
+	},
+	"snippet.trait": {
+		"body": ["trait ${1:identifier} {", "\t$0", "}"],
+		"description": "Code snippet for trait definition",
+		"prefix": "tra",
+		"scope": "jule,julelang"
+	},
+	"snippet.impl.struct": {
+		"body": ["impl ${1:structure_identifier} {", "\t$0", "}"],
+		"description": "Code snippet for impl statement to structure",
+		"prefix": "impl",
+		"scope": "jule,julelang"
+	},
+	"snippet.impl.trait": {
+		"body": ["impl ${1:trait_identifier} for ${2:structure_identifier} {", "\t$0", "}"],
+		"description": "Code snippet for impl statement to implement trait for structure",
+		"prefix": "impl",
+		"scope": "jule,julelang"
+	}
+}
