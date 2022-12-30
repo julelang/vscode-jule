@@ -4,7 +4,7 @@
   "description": "Jule programming language support for Visual Studio Code.",
   "publisher": "julelang",
   "version": "0.0.1",
-  "icon": "https://github.com/julelang/resources/blob/main/jule_icon.png",
+  "icon": "https://github.com/julelang/resources/blob/master/jule_icon.png",
   "homepage": "https://jule.dev",
   "engines": {
     "vscode": "^1.73.0"
