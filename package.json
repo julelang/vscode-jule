@@ -4,7 +4,7 @@
   "description": "Jule programming language support for Visual Studio Code.",
   "publisher": "julelang",
   "version": "0.0.1",
-  "icon": "https://github.com/julelang/resources/blob/master/jule_icon.png",
+  "icon": "resources/jule_icon.png",
   "homepage": "https://jule.dev",
   "engines": {
     "vscode": "^1.73.0"
@@ -34,16 +34,23 @@
         "path": "snippets/snippets.json"
       }
     ],
-    "languages": [{
-      "id": "jule",
-      "aliases": ["Jule", "jule"],
-      "extensions": [".jule"],
-      "configuration": "languages/language-configuration.json",
-      "icon": {
-        "dark": "resources/jule_icon.svg",
-        "light": "resources/jule_icon.svg"
+    "languages": [
+      {
+        "id": "jule",
+        "aliases": [
+          "Jule",
+          "jule"
+        ],
+        "extensions": [
+          ".jule"
+        ],
+        "configuration": "languages/language-configuration.json",
+        "icon": {
+          "dark": "resources/jule_icon.svg",
+          "light": "resources/jule_icon.svg"
+        }
       }
-    }],
+    ],
     "configuration": {
       "title": "Jule"
     },
@@ -52,10 +59,15 @@
         "language": "jule"
       }
     ],
-    "grammars": [{
-      "language": "jule",
-      "scopeName": "source.jule",
-      "path": "./syntaxes/jule.tmLanguage.json"
-    }]
+    "grammars": [
+      {
+        "language": "jule",
+        "scopeName": "source.jule",
+        "path": "./syntaxes/jule.tmLanguage.json"
+      }
+    ]
+  },
+  "dependencies": {
+    "@vscode/vsce": "^2.19.0"
   }
 }
