@@ -9,6 +9,9 @@
 			"include": "#storage"
 		},
 		{
+			"include": "#runes"
+		},
+		{
 			"include": "#strings"
 		},
 		{
@@ -40,12 +43,23 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.jule",
-				"match": "\\b(use|fn|pub|struct|byte|rune|enum|unsafe|const|let|mut|self|match|case|default|if|else|for|in|impl|trait|break|continue|goto|cpp|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|str|int|uint|type|any|bool|ret|fall|uintptr|co)\\b"
+				"match": "\\b(use|fn|pub|struct|byte|rune|enum|unsafe|const|let|mut|self|match|default|if|else|for|in|impl|trait|break|continue|goto|cpp|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|str|int|uint|type|any|bool|ret|fall|uintptr|co)\\b"
 			}]
 		},
 		"storage": {
 			"name": "storage.modifier.jule",
 			"match": "\\b(let|const|mut|pub|self)\\b"
+		},
+		"runes": {
+			"name": "string.quoted.single",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.jule",
+					"match": "\\\\."
+				}
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double.jule",
@@ -197,8 +211,7 @@
 			}
 		},
 		"identifiers": {
-			"match": "[a-zA-Z_]\\w*",
-			"name": "entity.name.jule"
+			"patterns": []
 		}
 	},
 	"scopeName": "source.jule"
