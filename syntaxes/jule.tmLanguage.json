@@ -15,6 +15,9 @@
 			"include": "#strings"
 		},
 		{
+			"include": "#raw_strings"
+		},
+		{
 			"include": "#comments"
 		},
 		{
@@ -71,6 +74,11 @@
 					"match": "\\\\."
 				}
 			]
+		},
+		"raw_strings": {
+			"name": "string.quoted.other.jule",
+			"begin": "`",
+			"end": "`"
 		},
 		"comments": {
 			"patterns": [
