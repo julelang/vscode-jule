@@ -47,7 +47,7 @@
 	],
 	"repository": {
 		"directives": {
-			"match": "^#\\p{L}+\\b",
+			"match": "#\\p{L}+\\b",
 			"name": "variable.language"
 		},
 		"keywords": {
