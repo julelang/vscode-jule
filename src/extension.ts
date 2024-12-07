@@ -9,6 +9,7 @@ enum CommandKind {
 // All commands of the extension.
 const commands = [
 	{command: 'jule.version', handler: command.version, kind: CommandKind.Command},
+	{command: 'jule.format', handler: command.format, kind: CommandKind.Command},
 	{command: 'jule.formatOnSave', handler: command.formatOnSave, kind: CommandKind.OnSave},
 ];
 

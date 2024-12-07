@@ -47,17 +47,10 @@ export function version(): void {
 	});
 }
 
-export function formatOnSave(document: vscode.TextDocument): void {
-	// Return immediately if document is not Jule source code.
-	if (document.languageId !== "jule") {
-		return;
-	}
-	if (!checkJulefmt()) {
-		return;
-	}
-	chprocess.exec(`julefmt ${document.fileName}`, (err, stdout, stderr) => {
+function formatFile(file: string): void {
+	chprocess.exec(`julefmt ${file}`, (err, stdout, stderr) => {
 		if (err) {
-			vscode.window.showErrorMessage('Source code could not be formatted!');
+			vscode.window.showErrorMessage(`Source code could not be formatted: ${file}`);
 			return;
 		}
 		if (stdout !== "") {
@@ -65,4 +58,24 @@ export function formatOnSave(document: vscode.TextDocument): void {
 			vscode.window.showInformationMessage(stdout);
 		}
 	})
+}
+
+export function format(): void {
+	if (checkJulefmt()) {
+		if (vscode.window.activeTextEditor === null || vscode.window.activeTextEditor === undefined) {
+			vscode.window.showErrorMessage('Source code could not be formatted: no active editor.');
+		} else {
+			formatFile(vscode.window.activeTextEditor.document.fileName);
+		}
+	}
+}
+
+export function formatOnSave(document: vscode.TextDocument): void {
+	// Return immediately if document is not Jule source code.
+	if (document.languageId !== "jule") {
+		return;
+	}
+	if (checkJulefmt()) {
+		formatFile(document.fileName);
+	}
 }

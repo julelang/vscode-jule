@@ -33,6 +33,10 @@
       {
         "command": "jule.version",
         "title": "Jule: Show julec version"
+      },
+      {
+        "command": "jule.format",
+        "title": "Jule: Format current file"
       }
     ],
     "snippets": [
