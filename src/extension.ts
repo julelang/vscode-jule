@@ -1,9 +1,15 @@
 import * as vscode from 'vscode';
 import * as command from './command';
 
+enum CommandKind {
+	Command,
+	OnSave,
+}
+
 // All commands of the extension.
 const commands = [
-	{command: 'jule.version', handler: command.version},
+	{command: 'jule.version', handler: command.version, kind: CommandKind.Command},
+	{command: 'jule.formatOnSave', handler: command.formatOnSave, kind: CommandKind.OnSave},
 ];
 
 // This method is called when the extension is activated.
@@ -11,7 +17,15 @@ const commands = [
 export function activate(context: vscode.ExtensionContext) {
 	// Register extension commands.
 	commands.forEach(pair => {
-		const disposable = vscode.commands.registerCommand(pair.command, pair.handler);
+		let disposable: vscode.Disposable;
+		switch (pair.kind) {
+		case CommandKind.Command:
+			disposable = vscode.commands.registerCommand(pair.command, pair.handler);
+			break;
+		case CommandKind.OnSave:
+			disposable = vscode.workspace.onDidSaveTextDocument(pair.handler);
+			break;
+		}
 		context.subscriptions.push(disposable);
 	});
 }
