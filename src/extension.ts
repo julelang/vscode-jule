@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as command from './command';
+import * as config from './config';
 
 enum CommandKind {
 	Command,

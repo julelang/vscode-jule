@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as chprocess from 'child_process';
-import * as path from 'path';
+import * as config from './config';
 
 var julec: boolean | null = null;   // julec found
 var julefmt: boolean | null = null; // julefmt found
@@ -71,6 +71,10 @@ export function format(): void {
 }
 
 export function formatOnSave(document: vscode.TextDocument): void {
+	// Return immediately if format on save disabled.
+	if (!config.formatOnSave()) {
+		return;
+	}
 	// Return immediately if document is not Jule source code.
 	if (document.languageId !== "jule") {
 		return;

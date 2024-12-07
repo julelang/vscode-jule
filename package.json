@@ -63,7 +63,14 @@
       }
     ],
     "configuration": {
-      "title": "Jule"
+      "title": "Jule",
+      "properties": {
+        "jule.formatOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Formats active text editor on save."
+        }
+      }
     },
     "breakpoints": [
       {
