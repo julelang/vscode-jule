@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as chprocess from 'child_process';
-import * as config from './config';
 
 var julec: boolean | null = null;   // julec found
 var julefmt: boolean | null = null; // julefmt found
@@ -47,39 +46,38 @@ export function version(): void {
 	});
 }
 
-function formatFile(file: string): void {
-	chprocess.exec(`julefmt ${file}`, (err, stdout, stderr) => {
-		if (err) {
-			vscode.window.showErrorMessage(`Source code could not be formatted: ${file}`);
-			return;
+// Formats document with julefmt, if possible.
+// Designed for the vscode.languages.registerDocumentFormattingEditProvider registration.
+export function format(document: vscode.TextDocument): Promise<vscode.TextEdit[]> {
+	return new Promise<vscode.TextEdit[]>((resolve, reject) => {
+		if (!checkJulefmt()) {
+			return reject("julefmt not found");
 		}
-		if (stdout !== "") {
-			// julefmt writed some output, show it.
-			vscode.window.showInformationMessage(stdout);
+		let stdout = '';
+		let stderr = '';
+		// Use spawn instead of exec to avoid maxBufferExceeded error
+		const p = chprocess.spawn('julefmt');
+		p.stdout.setEncoding('utf8');
+		p.stdout.on('data', (data) => (stdout += data));
+		p.stderr.on('data', (data) => (stderr += data));
+		p.on('error', (err) => {
+			return reject(err);
+		});
+		p.on('close', (code) => {
+			if (code !== 0 || stderr !== "") {
+				return reject(stderr);
+			}
+			// Return the complete file content in the edit.
+			// VS Code will calculate minimal edits to be applied.
+			const fileStart = new vscode.Position(0, 0);
+			const fileEnd = document.lineAt(document.lineCount - 1).range.end;
+			const textEdits: vscode.TextEdit[] = [
+				new vscode.TextEdit(new vscode.Range(fileStart, fileEnd), stdout)
+			];
+			return resolve(textEdits);
+		});
+		if (p.pid) {
+			p.stdin.end(document.getText());
 		}
-	})
-}
-
-export function format(): void {
-	if (checkJulefmt()) {
-		if (vscode.window.activeTextEditor === null || vscode.window.activeTextEditor === undefined) {
-			vscode.window.showErrorMessage('Source code could not be formatted: no active editor.');
-		} else {
-			formatFile(vscode.window.activeTextEditor.document.fileName);
-		}
-	}
-}
-
-export function formatOnSave(document: vscode.TextDocument): void {
-	// Return immediately if format on save disabled.
-	if (!config.formatOnSave()) {
-		return;
-	}
-	// Return immediately if document is not Jule source code.
-	if (document.languageId !== "jule") {
-		return;
-	}
-	if (checkJulefmt()) {
-		formatFile(document.fileName);
-	}
+	});
 }
