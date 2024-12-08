@@ -6,6 +6,7 @@ Official Jule extension for Visual Studio Code.
 
 - Syntax highlighting
 - Snippets
+- Source code formatting
 
 ## Contributing
 
