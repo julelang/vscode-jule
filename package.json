@@ -1,8 +1,8 @@
 {
-  "name": "vscode-jule",
+  "name": "jule",
   "displayName": "Jule",
   "description": "Jule programming language support for Visual Studio Code.",
-  "publisher": "julelang",
+  "publisher": "Jule Team",
   "version": "0.0.1",
   "icon": "resources/jule_icon.png",
   "homepage": "https://jule.dev",
@@ -11,7 +11,8 @@
   },
   "categories": [
     "Programming Languages",
-    "Snippets"
+    "Snippets",
+    "Formatters"
   ],
   "keywords": [
     "Jule",
@@ -59,14 +60,7 @@
       }
     ],
     "configuration": {
-      "title": "Jule",
-      "properties": {
-        "jule.formatOnSave": {
-          "type": "boolean",
-          "default": true,
-          "description": "Formats active text editor on save."
-        }
-      }
+      "title": "Jule"
     },
     "breakpoints": [
       {
