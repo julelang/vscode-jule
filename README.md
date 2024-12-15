@@ -24,4 +24,4 @@ To contribute, please read the [contribution guidelines](CONTRIBUTING.md).
 ## License
 
 The extension is distributed under the terms of the BSD 3-Clause license. <br>
-[See License Details](https://jule.dev/pages/license.html)
+[See License Details](LICENSE)
