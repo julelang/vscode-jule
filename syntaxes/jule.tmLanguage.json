@@ -62,7 +62,7 @@
 		"identifiersBegin": {
 			"patterns": [
 				{
-					"begin": "\\b(struct|type)\\b",
+					"begin": "^(\\bcpp\\s)?\\s*(struct|type)\\b",
 					"beginCaptures": {
 						"0": {
 							"name": "keyword.control.jule"
