@@ -6,7 +6,19 @@
 			"include": "#directives"
 		},
 		{
+			"include": "#functionsSpecialCases"
+		},
+		{
+			"include": "#punctuation"
+		},
+		{
+			"include": "#identifiersBegin"
+		},
+		{
 			"include": "#keywords"
+		},
+		{
+			"include": "#functions"
 		},
 		{
 			"include": "#storage"
@@ -15,13 +27,13 @@
 			"include": "#constants"
 		},
 		{
-			"include": "#functions"
+			"include": "#structs"
 		},
 		{
-			"include": "#structures"
+			"include": "#keywords2"
 		},
 		{
-			"include": "#variables"
+			"include": "#identifiers"
 		},
 		{
 			"include": "#runes"
@@ -40,9 +52,6 @@
 		},
 		{
 			"include": "#operators"
-		},
-		{
-			"include": "#punctuation"
 		}
 	],
 	"repository": {
@@ -50,13 +59,45 @@
 			"match": "#\\p{L}+\\b",
 			"name": "variable.language"
 		},
-		"keywords": {
+		"identifiersBegin": {
 			"patterns": [
 				{
-					"name": "keyword.control.jule",
-					"match": "\\b(chan|map|error|use|fn|pub|struct|byte|rune|enum|unsafe|const|let|static|mut|self|match|defer|if|else|for|in|impl|trait|break|continue|goto|cpp|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|str|int|uint|type|any|bool|ret|fall|uintptr|co)\\b"
+					"begin": "\\b(struct|type)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.control.jule"
+						}
+					},
+					"end": "(\\(|:|\\[|\\{|=|$)",
+					"patterns": [
+						{
+							"captures": {
+								"0": {
+									"patterns": [
+										{
+											"match": "(\\p{L}|_)[\\p{L}_0-9]*",
+											"name": ""
+										},
+										{
+											"include": "#punctuation"
+										},
+										{
+											"include": "#operators"
+										},
+										{
+											"include": "#numbers"
+										}
+									]
+								}
+							}
+						}
+					]
 				}
 			]
+		},
+		"keywords": {
+			"name": "keyword.control.jule",
+			"match": "\\b(chan|map|error|use|fn|pub|struct|byte|rune|enum|unsafe|const|let|static|mut|self|match|defer|if|else|for|in|impl|trait|break|continue|goto|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|str|int|uint|type|any|bool|ret|fall|uintptr|co)\\b"
 		},
 		"storage": {
 			"name": "storage.modifier.jule",
@@ -66,16 +107,38 @@
 			"name": "constant.language.jule",
 			"match": "\\b(true|false|nil)\\b"
 		},
-		"functions": {
-			"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
-			"name": "support.function.jule",
+		"functionsSpecialCases": {
+			"begin": "((\\.|::)(?=[a-zA-Z_]\\w*(\b|)(?=\\())|(\\bunsafe)?\\bfn)",
+			"beginCaptures": {
+				"0": {
+					"patterns": [
+						{
+							"match": "\\b(unsafe|fn)\\b",
+							"name": "keyword.control.jule"
+						},
+						{
+							"include": "#punctuation"
+						}
+					]
+				}
+			},
+			"end": "\\(",
 			"patterns": [
 				{
-					"include": "#brackets"
+					"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+					"name": "support.function.jule"
 				}
 			]
 		},
-		"variables": {
+		"functions": {
+			"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+			"name": "support.function.jule"
+		},
+		"keywords2": {
+			"name": "keyword.control.jule",
+			"match": "\\b(cpp)\\b"
+		},
+		"identifiers": {
 			"match": "(\\p{L}|_)[\\p{L}_0-9]*",
 			"captures": {
 				"0": {
@@ -207,6 +270,10 @@
 				{
 					"name": "keyword.operator.logical.jule",
 					"match": "(\\&\\&|\\|\\||\\!)"
+				},
+				{
+					"name": "keyword.operator.new.jule",
+					"match": ":="
 				}
 			]
 		},
@@ -219,6 +286,10 @@
 				{
 					"name": "punctuation.delimiter.comma.jule",
 					"match": ","
+				},
+				{
+					"name": "punctuation.separator.namespace.jule",
+					"match": "::"
 				},
 				{
 					"name": "punctuation.separator.key-value.colon.jule",
