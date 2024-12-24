@@ -117,7 +117,7 @@
 		"functionsSpecialCases": {
 			"patterns": [
 				{
-					"begin": "((cpp\\.|::)(?=[a-zA-Z_]\\w*(\b|)(?=\\())|(\\bunsafe)?\\bfn)",
+					"begin": "((cpp\\.|::)(?=[\\p{L}_]\\w*(\b|)(?=\\())|(\\bunsafe)?\\bfn)",
 					"beginCaptures": {
 						"0": {
 							"patterns": [
@@ -134,13 +134,13 @@
 					"end": "\\(",
 					"patterns": [
 						{
-							"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+							"match": "[\\p{L}_]\\w*(\b|)(?=\\()",
 							"name": "support.function.jule"
 						}
 					]
 				},
 				{
-					"begin": "(\\.|::)(?=[a-zA-Z_]\\w*(\b|)(?=\\())",
+					"begin": "(\\.|::)(?=[\\p{L}_]\\w*(\b|)(?=\\())",
 					"beginCaptures": {
 						"0": {
 							"patterns": [
@@ -159,7 +159,7 @@
 							"include": "#keywords2"
 						},
 						{
-							"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+							"match": "[\\p{L}_]\\w*(\b|)(?=\\()",
 							"name": "support.function.jule"
 						}
 					]
@@ -167,7 +167,7 @@
 			]
 		},
 		"functions": {
-			"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+			"match": "[\\p{L}_]\\w*(\b|)(?=\\()",
 			"name": "support.function.jule"
 		},
 		"keywords2": {
