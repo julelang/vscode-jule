@@ -18,6 +18,9 @@
 			"include": "#keywords"
 		},
 		{
+			"include": "#imaginaryKeywords"
+		},
+		{
 			"include": "#functions"
 		},
 		{
@@ -97,7 +100,11 @@
 		},
 		"keywords": {
 			"name": "keyword.control.jule",
-			"match": "\\b(chan|map|error|use|fn|pub|struct|byte|rune|enum|unsafe|const|let|static|mut|self|match|defer|if|else|for|in|impl|trait|break|continue|goto|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|str|int|uint|type|any|bool|ret|fall|uintptr|co)\\b"
+			"match": "\\b(map|type|impl|self|trait|struct|enum|fn|const|let|static|mut|for|in|break|continue|goto|match|fall|if|else|ret|error|use|co|unsafe|defer)\\b"
+		},
+		"imaginaryKeywords": {
+			"name": "keyword.control.jule",
+			"match": "\\b(int|uint|uintptr|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|str|any|byte|rune)\\b"
 		},
 		"storage": {
 			"name": "storage.modifier.jule",
@@ -108,25 +115,54 @@
 			"match": "\\b(true|false|nil)\\b"
 		},
 		"functionsSpecialCases": {
-			"begin": "((\\.|::)(?=[a-zA-Z_]\\w*(\b|)(?=\\())|(\\bunsafe)?\\bfn)",
-			"beginCaptures": {
-				"0": {
-					"patterns": [
-						{
-							"match": "\\b(unsafe|fn)\\b",
-							"name": "keyword.control.jule"
-						},
-						{
-							"include": "#punctuation"
-						}
-					]
-				}
-			},
-			"end": "\\(",
 			"patterns": [
 				{
-					"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
-					"name": "support.function.jule"
+					"begin": "((cpp\\.|::)(?=[a-zA-Z_]\\w*(\b|)(?=\\())|(\\bunsafe)?\\bfn)",
+					"beginCaptures": {
+						"0": {
+							"patterns": [
+								{
+									"match": "\\b(cpp|unsafe|fn)\\b",
+									"name": "keyword.control.jule"
+								},
+								{
+									"include": "#punctuation"
+								}
+							]
+						}
+					},
+					"end": "\\(",
+					"patterns": [
+						{
+							"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+							"name": "support.function.jule"
+						}
+					]
+				},
+				{
+					"begin": "(\\.|::)(?=[a-zA-Z_]\\w*(\b|)(?=\\())",
+					"beginCaptures": {
+						"0": {
+							"patterns": [
+								{
+									"include": "#punctuation"
+								}
+							]
+						}
+					},
+					"end": "\\(",
+					"patterns": [
+						{
+							"include": "#keywords"
+						},
+						{
+							"include": "#keywords2"
+						},
+						{
+							"match": "[a-zA-Z_]\\w*(\b|)(?=\\()",
+							"name": "support.function.jule"
+						}
+					]
 				}
 			]
 		},
