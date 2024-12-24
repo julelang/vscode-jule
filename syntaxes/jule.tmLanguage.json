@@ -100,7 +100,7 @@
 		},
 		"keywords": {
 			"name": "keyword.control.jule",
-			"match": "\\b(map|type|impl|self|trait|struct|enum|fn|const|let|static|mut|for|in|break|continue|goto|match|fall|if|else|ret|error|use|co|unsafe|defer)\\b"
+			"match": "\\b(map|type|impl|self|trait|struct|enum|fn|const|let|static|mut|for|in|break|continue|goto|match|fall|if|else|ret|error|use|co|unsafe|defer|chan|select)\\b"
 		},
 		"imaginaryKeywords": {
 			"name": "keyword.control.jule",
