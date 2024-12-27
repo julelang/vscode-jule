@@ -117,12 +117,35 @@
 		"functionsSpecialCases": {
 			"patterns": [
 				{
-					"begin": "((cpp\\.|::)(?=[\\p{L}_]\\w*(\b|)(?=\\())|(\\bunsafe)?\\bfn)",
+					"begin": "(\\bunsafe)?\\bfn\\s+(?=[\\p{L}_]\\w*)",
 					"beginCaptures": {
 						"0": {
 							"patterns": [
 								{
-									"match": "\\b(cpp|unsafe|fn)\\b",
+									"match": "\\b(unsafe|fn)\\b",
+									"name": "keyword.control.jule"
+								},
+								{
+									"include": "#punctuation"
+								}
+							]
+						}
+					},
+					"end": "\\(|\\[",
+					"patterns": [
+						{
+							"match": "[\\p{L}_]\\w*",
+							"name": "support.function.jule"
+						}
+					]
+				},
+				{
+					"begin": "(cpp\\.|::)(?=c(\b|)(?=\\())",
+					"beginCaptures": {
+						"0": {
+							"patterns": [
+								{
+									"match": "\\b(cpp)\\b",
 									"name": "keyword.control.jule"
 								},
 								{
