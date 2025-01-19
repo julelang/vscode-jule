@@ -1,13 +1,22 @@
 import * as vscode from 'vscode';
 import * as chprocess from 'child_process';
+import * as fs from 'fs';
+import * as os from 'os';
 
 var julec: boolean | null = null;   // julec found
 var julefmt: boolean | null = null; // julefmt found
 
 function checkExec(exec: string): boolean {
 	try {
-		chprocess.execSync(exec);
-		return true;
+		const stats = fs.statSync(exec);
+		if (stats.isFile()) {
+			if (os.platform() === 'win32') {
+				return exec.toLowerCase().endsWith('.exe');
+			} else {
+				return (stats.mode & fs.constants.X_OK) !== 0;
+			}
+		}
+		return false;
 	} catch {
 		return false;
 	}
