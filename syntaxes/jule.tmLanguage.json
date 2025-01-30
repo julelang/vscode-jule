@@ -68,7 +68,7 @@
 					"begin": "^(\\bcpp\\s)?\\s*(struct|type)\\b",
 					"beginCaptures": {
 						"0": {
-							"name": "keyword.control.jule"
+							"name": "keyword.jule"
 						}
 					},
 					"end": "(\\(|:|\\[|\\{|=|$)",
@@ -99,11 +99,19 @@
 			]
 		},
 		"keywords": {
-			"name": "keyword.control.jule",
-			"match": "\\b(map|type|impl|self|trait|struct|enum|fn|const|let|static|mut|for|in|break|continue|goto|match|fall|if|else|ret|error|use|co|unsafe|defer|chan|select)\\b"
+			"patterns": [
+				{
+					"name": "keyword.jule",
+					"match": "\\b(map|type|impl|trait|struct|enum|fn|co|unsafe|chan)\\b"
+				},
+				{
+					"name": "keyword.control.jule",
+					"match": "\\b(ret|goto|for|in|break|continue|if|error|else|match|defer|select|fall|use)\\b"
+				}
+			]
 		},
 		"imaginaryKeywords": {
-			"name": "keyword.control.jule",
+			"name": "storage.type",
 			"match": "\\b(int|uint|uintptr|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|str|any|byte|rune)\\b"
 		},
 		"storage": {
@@ -123,7 +131,7 @@
 							"patterns": [
 								{
 									"match": "\\b(unsafe|fn)\\b",
-									"name": "keyword.control.jule"
+									"name": "keyword.jule"
 								},
 								{
 									"include": "#punctuation"
@@ -146,7 +154,7 @@
 							"patterns": [
 								{
 									"match": "\\b(cpp)\\b",
-									"name": "keyword.control.jule"
+									"name": "keyword.jule"
 								},
 								{
 									"include": "#punctuation"
@@ -194,7 +202,7 @@
 			"name": "support.function.jule"
 		},
 		"keywords2": {
-			"name": "keyword.control.jule",
+			"name": "keyword.jule",
 			"match": "\\b(cpp)\\b"
 		},
 		"identifiers": {
