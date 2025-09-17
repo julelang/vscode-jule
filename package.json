@@ -57,6 +57,20 @@
           "dark": "resources/jule_icon.svg",
           "light": "resources/jule_icon.svg"
         }
+      },
+      {
+        "id": "julemod",
+        "aliases": [
+          "Jule Module File"
+        ],
+        "extensions": [
+          "jule.mod"
+        ],
+        "configuration": "languages/language-configuration.json",
+        "icon": {
+          "dark": "resources/jule_icon.svg",
+          "light": "resources/jule_icon.svg"
+        }
       }
     ],
     "configuration": {
@@ -72,6 +86,11 @@
         "language": "jule",
         "scopeName": "source.jule",
         "path": "./syntaxes/jule.tmLanguage.json"
+      },
+      {
+        "language": "julemod",
+        "scopeName": "jule.mod",
+        "path": "./syntaxes/mod.tmLanguage.json"
       }
     ]
   },
