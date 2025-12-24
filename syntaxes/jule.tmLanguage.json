@@ -102,7 +102,7 @@
 			"patterns": [
 				{
 					"name": "keyword.jule",
-					"match": "\\b(map|type|impl|trait|struct|enum|fn|co|unsafe|chan)\\b"
+					"match": "\\b(map|type|impl|trait|struct|enum|fn|co|unsafe|chan|async|await)\\b"
 				},
 				{
 					"name": "keyword.control.jule",
