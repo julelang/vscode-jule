@@ -1,0 +1,59 @@
+name: Shared Test Job
+
+on:
+  workflow_call:
+
+jobs:
+  test:
+    name: Lint, Build & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: |
+          echo "🔍 Running ESLint..."
+          npm run lint
+
+      - name: Compile TypeScript
+        run: |
+          echo "📦 Compiling TypeScript..."
+          npm run compile
+          
+      - name: Verify compiled output exists
+        run: |
+          echo "✅ Checking compiled output..."
+          if [ ! -f "out/extension.js" ]; then
+            echo "❌ Error: out/extension.js not found after compilation!"
+            exit 1
+          fi
+          echo "✅ Compiled output verified"
+
+      - name: Run tests
+        run: |
+          echo "🧪 Running test suite..."
+          xvfb-run -a npm run test
+
+      - name: Check README and LICENSE
+        run: |
+          echo "📄 Checking required files..."
+          if [ ! -f "README.md" ]; then
+            echo "❌ Error: README.md not found!"
+            exit 1
+          fi
+          if [ ! -f "LICENSE" ]; then
+            echo "❌ Error: LICENSE not found!"
+            exit 1
+          fi
+          echo "✅ All required files present"

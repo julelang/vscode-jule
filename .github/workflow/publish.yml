@@ -1,0 +1,127 @@
+name: Publish to VS Code Marketplace
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  test:
+    uses: ./.github/workflows/shared-test.yml
+
+  validate:
+    name: Validate Extension
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile for publication
+        run: npm run vscode:prepublish
+
+      - name: Validate version consistency
+        run: |
+          RELEASE_VERSION="${{ github.event.release.tag_name }}"
+          RELEASE_VERSION="${RELEASE_VERSION#v}"
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          
+          echo "📋 Version check:"
+          echo "   Release tag:  $RELEASE_VERSION"
+          echo "   package.json: $PACKAGE_VERSION"
+          
+          if [ "$RELEASE_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "❌ Version mismatch!"
+            exit 1
+          fi
+          echo "✅ Versions match: $PACKAGE_VERSION"
+
+      - name: Validate extension with vsce
+        run: |
+          echo "🔐 Validating extension with vsce..."
+          npm install -g @vscode/vsce
+          vsce validate
+          echo "✅ Extension validation passed"
+
+  publish:
+    name: Publish Extension
+    needs: [test, validate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for publication
+        run: npm run vscode:prepublish
+
+      - name: Publish to VS Code Marketplace
+        run: |
+          echo "🚀 Publishing to VS Code Marketplace..."
+          npm install -g @vscode/vsce
+          vsce publish -p ${{ secrets.VSCE_TOKEN }}
+          echo "✅ Published to VS Code Marketplace"
+
+      - name: Publish to Open VSX Registry
+        run: |
+          echo "🚀 Publishing to Open VSX Registry..."
+          npm install -g ovsx
+          ovsx publish -p ${{ secrets.OPEN_VSX_TOKEN }} || \
+            echo "⚠️  Open VSX publication skipped (token not configured)"
+        continue-on-error: true
+
+      - name: Create VSIX package
+        run: |
+          echo "📦 Creating VSIX package..."
+          npm install -g @vscode/vsce
+          vsce package
+          echo "✅ VSIX package created"
+
+      - name: Upload VSIX to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./jule-${{ github.event.release.tag_name }}.vsix
+          asset_name: jule-${{ github.event.release.tag_name }}.vsix
+          asset_content_type: application/zip
+
+      - name: Create success summary
+        if: success()
+        run: |
+          echo "## ✅ Publication Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Release:** ${{ github.event.release.tag_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "**Published to:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=julelang.jule)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Open VSX Registry](https://open-vsx.org/extension/julelang/jule)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Create failure summary
+        if: failure()
+        run: |
+          echo "## ❌ Publication Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Release:** ${{ github.event.release.tag_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "Please check the logs above for details." >> $GITHUB_STEP_SUMMARY
