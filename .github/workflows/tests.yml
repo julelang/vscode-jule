@@ -27,24 +27,24 @@ jobs:
 
       - name: Lint code
         run: |
-          echo "🔍 Running ESLint..."
+          echo "Running ESLint..."
           npm run lint
 
       - name: Compile TypeScript
         run: |
-          echo "📦 Compiling TypeScript..."
+          echo "Compiling TypeScript..."
           sh package.sh
           
       - name: Verify compiled output exists
         run: |
-          echo "✅ Checking compiled output..."
+          echo "Checking compiled output..."
           if [ ! -f "out/extension.js" ]; then
-            echo "❌ Error: out/extension.js not found after compilation!"
+            echo "Error: out/extension.js not found after compilation!"
             exit 1
           fi
-          echo "✅ Compiled output verified"
+          echo "Compiled output verified"
 
       - name: Run tests
         run: |
-          echo "🧪 Running test suite..."
+          echo "Running test suite..."
           xvfb-run -a npm run test
