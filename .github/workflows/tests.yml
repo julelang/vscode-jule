@@ -1,0 +1,50 @@
+name: Tests
+
+on:
+  push
+
+jobs:
+  test:
+    name: Lint, Build & Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: |
+          echo "Running ESLint..."
+          npm run lint
+
+      - name: Compile TypeScript
+        run: |
+          echo "Compiling TypeScript..."
+          sh package.sh
+          
+      - name: Verify compiled output exists
+        run: |
+          echo "Checking compiled output..."
+          if [ ! -f "out/extension.js" ]; then
+            echo "Error: out/extension.js not found after compilation!"
+            exit 1
+          fi
+          echo "Compiled output verified"
+
+      - name: Run tests
+        run: |
+          echo "Running test suite..."
+          xvfb-run -a npm run test
