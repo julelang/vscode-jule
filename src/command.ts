@@ -19,7 +19,7 @@ function checkExec(exec: string): boolean {
 
 function checkJulec(): boolean {
 	if (julec === null) {
-		julec = checkExec('julec')
+		julec = checkExec('julec');
 	}
 	if (julec === false) {
 		vscode.window.showErrorMessage('julec not found!');
@@ -29,7 +29,7 @@ function checkJulec(): boolean {
 
 function checkJulefmt(): boolean {
 	if (julefmt === null) {
-		julefmt = checkExec('julefmt')
+		julefmt = checkExec('julefmt');
 	}
 	if (julefmt === false) {
 		vscode.window.showErrorMessage('julefmt not found!');
