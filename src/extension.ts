@@ -26,6 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Register formatter support with API.
 	vscode.languages.registerDocumentFormattingEditProvider('jule', { provideDocumentFormattingEdits: command.format });
+	vscode.languages.registerDocumentFormattingEditProvider('julemod', { provideDocumentFormattingEdits: command.format });
 }
 
 // This method is called when the extension is deactivated.

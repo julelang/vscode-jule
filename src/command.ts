@@ -69,6 +69,7 @@ export function format(document: vscode.TextDocument): Promise<vscode.TextEdit[]
 		});
 		p.on('close', (code) => {
 			if (code !== 0 || stderr !== "") {
+				//vscode.window.showInformationMessage(stderr);
 				return reject(stderr);
 			}
 			// Return the complete file content in the edit.
