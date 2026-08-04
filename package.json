@@ -5,6 +5,7 @@
   "publisher": "julelang",
   "version": "0.0.1",
   "icon": "resources/jule_icon.png",
+  "license": "BSD-3-Clause",
   "homepage": "https://jule.dev",
   "engines": {
     "vscode": "^1.73.0"
