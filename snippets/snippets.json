@@ -222,5 +222,15 @@
 		"description": "Code snippet for test function",
 		"prefix": "testfunc",
 		"scope": "jule,julelang"
+	},
+	"snippet.future": {
+		"body": [
+			"#future\nasync fn ${1:identifier}(${2:args}) {",
+			"\tfuture(ready${1:identifier}, suspend${1:identifier})",
+			"}"
+		],
+		"description": "Code snippet for future function",
+		"prefix": "future",
+		"scope": "jule,julelang"
 	}
 }

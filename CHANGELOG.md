@@ -4,6 +4,7 @@
 - Add toggle-test-file command
 - Add package-based show documentation command
 - Add test function snippet
+- Add future function snippet
 - Fix legacy `out` and `outln` function snippets
 
 # 0.0.1
