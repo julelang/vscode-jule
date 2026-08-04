@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as chprocess from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ui from "./ui";
 
 var julec: boolean | null = null;   // julec found
 var julefmt: boolean | null = null; // julefmt found
@@ -17,7 +18,7 @@ function checkExec(exec: string): boolean {
 	return false;
 }
 
-function checkJulec(): boolean {
+export function checkJulec(): boolean {
 	if (julec === null) {
 		julec = checkExec('julec');
 	}
@@ -45,6 +46,9 @@ export function version(): void {
 		if (err) {
 			vscode.window.showErrorMessage('Jule version could not read!');
 			return;
+		}
+		if (ui.juleVersionStatus) {
+			ui.juleVersionStatus.text = stdout;
 		}
 		vscode.window.showInformationMessage(`Your julec version: ${stdout}`);
 	});
