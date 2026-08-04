@@ -3,7 +3,7 @@
   "displayName": "Jule",
   "description": "Jule programming language support for Visual Studio Code.",
   "publisher": "julelang",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "icon": "resources/jule_icon.png",
   "license": "BSD-3-Clause",
   "homepage": "https://jule.dev",
