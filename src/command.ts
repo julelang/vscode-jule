@@ -4,8 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ui from "./ui";
 
-var julec: boolean | null = null;   // julec found
-var julefmt: boolean | null = null; // julefmt found
+let julec: boolean | null = null;   // julec found
+let julefmt: boolean | null = null; // julefmt found
+let juledoc: boolean | null = null; // juledoc found
 
 function checkExec(exec: string): boolean {
 	const pathDirs = process.env.PATH!.split(path.delimiter);
@@ -28,14 +29,24 @@ export function checkJulec(): boolean {
 	return julec;
 }
 
-function checkJulefmt(): boolean {
+function checkJulefmt(): string {
 	if (julefmt === null) {
 		julefmt = checkExec('julefmt');
 	}
 	if (julefmt === false) {
-		vscode.window.showErrorMessage('julefmt not found!');
+		return 'julefmt not found!';
 	}
-	return julefmt;
+	return "";
+}
+
+function checkJuledoc(): string {
+	if (juledoc === null) {
+		juledoc = checkExec('juledoc');
+	}
+	if (juledoc === false) {
+		return 'juledoc not found!';
+	}
+	return "";
 }
 
 export function version(): void {
@@ -118,8 +129,9 @@ export function toggleTestFile(): void {
 // Designed for the vscode.languages.registerDocumentFormattingEditProvider registration.
 export function format(document: vscode.TextDocument): Promise<vscode.TextEdit[]> {
 	return new Promise<vscode.TextEdit[]>((resolve, reject) => {
-		if (!checkJulefmt()) {
-			return reject("julefmt not found");
+		const julefmtError = checkJulefmt();
+		if (julefmtError !== "") {
+			return reject(julefmtError);
 		}
 		let stdout = '';
 		let stderr = '';
@@ -133,7 +145,6 @@ export function format(document: vscode.TextDocument): Promise<vscode.TextEdit[]
 		});
 		p.on('close', (code) => {
 			if (code !== 0 || stderr !== "") {
-				//vscode.window.showInformationMessage(stderr);
 				return reject(stderr);
 			}
 			// Return the complete file content in the edit.
@@ -148,5 +159,66 @@ export function format(document: vscode.TextDocument): Promise<vscode.TextEdit[]
 		if (p.pid) {
 			p.stdin.end(document.getText());
 		}
+	});
+}
+
+export function runJuledoc(workspace: string): Promise<string> {
+	return new Promise<string>((resolve, reject) => {
+		let stdout = '';
+		let stderr = '';
+		// Use spawn instead of exec to avoid maxBufferExceeded error
+		const p = chprocess.spawn('juledoc', [workspace]);
+		p.stdout.setEncoding('utf8');
+		p.stdout.on('data', (data) => (stdout += data));
+		p.stderr.on('data', (data) => (stderr += data));
+		p.on('error', (err) => {
+			return reject(err);
+		});
+		p.on('close', (code) => {
+			if (code !== 0 || stderr !== "") {
+				return reject(stderr);
+			}
+			return resolve(stdout)
+		});
+	});
+}
+
+const juledocPreviewURI = vscode.Uri.parse("juledoc:/documentation.md");
+
+export const juledocProvider = new class implements vscode.TextDocumentContentProvider {
+	private markdownContent = "";
+
+	private readonly emitter = new vscode.EventEmitter<vscode.Uri>();
+
+	readonly onDidChange = this.emitter.event;
+
+	provideTextDocumentContent(): string {
+		return this.markdownContent;
+	}
+
+	update(content: string): void {
+		this.markdownContent = content;
+		this.emitter.fire(juledocPreviewURI);
+	}
+};
+
+export async function showPackageDocumentation(): Promise<void> {
+	return new Promise<void>(async (resolve, reject) => {
+		const juledocError = checkJuledoc();
+		if (juledocError !== "") {
+			return reject(juledocError);
+		}
+		if (!vscode.window.activeTextEditor) {
+			return reject("No Active Jule Source Code Found");
+		}
+		let packagePath = vscode.window.activeTextEditor.document.uri.fsPath;
+		packagePath = path.dirname(packagePath);
+		const markdown = await runJuledoc(packagePath);
+		juledocProvider.update(markdown);
+		await vscode.commands.executeCommand(
+			"markdown.showPreview",
+			juledocPreviewURI,
+		);
+		return resolve();
 	});
 }

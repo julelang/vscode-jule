@@ -2,6 +2,7 @@
 
 - Add status bar item
 - Add toggle-test-file command
+- Add package-based show documentation command
 
 # 0.0.1
 

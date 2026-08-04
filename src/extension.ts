@@ -11,6 +11,7 @@ enum CommandKind {
 const commands = [
 	{ command: 'jule.version', handler: command.version, kind: CommandKind.Command },
 	{ command: 'jule.toggleTestFile', handler: command.toggleTestFile, kind: CommandKind.Command },
+	{ command: 'jule.showPackageDocumentation', handler: command.showPackageDocumentation, kind: CommandKind.Command },
 ];
 
 function registerExtensionCommands(context: vscode.ExtensionContext): void {
@@ -30,6 +31,12 @@ function registerFormatterSupport(): void {
 	vscode.languages.registerDocumentFormattingEditProvider('julemod', { provideDocumentFormattingEdits: command.format });
 }
 
+function registerJuledoc(context: vscode.ExtensionContext): void {
+	context.subscriptions.push(
+		vscode.workspace.registerTextDocumentContentProvider("juledoc", command.juledocProvider),
+	);
+}
+
 function registerStatus(context: vscode.ExtensionContext): void {
 	if (!command.checkJulec()) {
 		return
@@ -44,9 +51,7 @@ function registerStatus(context: vscode.ExtensionContext): void {
 		));
 		ui.juleVersionStatus!.command = "jule.version";
 		ui.juleVersionStatus!.text = stdout;
-		context.subscriptions.push(
-			ui.juleVersionStatus!,
-		);
+		context.subscriptions.push(ui.juleVersionStatus!);
 		ui.juleVersionStatus!.show();
 	});
 }
@@ -55,8 +60,9 @@ function registerStatus(context: vscode.ExtensionContext): void {
 // The extension is activated the very first time the command is executed.
 export function activate(context: vscode.ExtensionContext) {
 	registerExtensionCommands(context);
-	registerFormatterSupport()
-	registerStatus(context)
+	registerFormatterSupport();
+	registerJuledoc(context);
+	registerStatus(context);
 }
 
 // This method is called when the extension is deactivated.

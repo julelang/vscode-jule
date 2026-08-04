@@ -39,6 +39,10 @@
       {
         "command": "jule.toggleTestFile",
         "title": "Jule: Toggle Test File"
+      },
+      {
+        "command": "jule.showPackageDocumentation",
+        "title": "Jule: Show Documentation (Package)"
       }
     ],
     "snippets": [
