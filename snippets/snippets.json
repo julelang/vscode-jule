@@ -212,5 +212,15 @@
 		"description": "Code snippet for impl statement to implement trait for structure",
 		"prefix": "impl",
 		"scope": "jule,julelang"
+	},
+	"snippet.testfunc": {
+		"body": [
+			"#test\nfn test${1:identifier}(t: &testing::T) {",
+			"\t$0",
+			"}"
+		],
+		"description": "Code snippet for test function",
+		"prefix": "testfunc",
+		"scope": "jule,julelang"
 	}
 }
