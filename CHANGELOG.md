@@ -6,6 +6,7 @@
 - Add test function snippet
 - Add future function snippet
 - Fix legacy `out` and `outln` function snippets
+- Remove string placeholder highlighting
 
 # 0.0.1
 
