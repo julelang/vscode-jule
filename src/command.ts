@@ -50,6 +50,66 @@ export function version(): void {
 	});
 }
 
+function findTestFile(file: string): string | undefined {
+	const dir = path.dirname(file);
+	const ext = path.extname(file);
+	const base = path.basename(file, ext);
+	const isTestFile = base.endsWith("_test");
+	const candidates: string[] = [];
+	if (isTestFile) {
+		// foo_test.jule
+		const normalName = base.slice(0, -5) + ext;
+		// module/foo.jule
+		candidates.push(
+			path.join(dir, normalName)
+		);
+		// module/test/foo.jule
+		if (path.basename(dir) === "test") {
+			candidates.push(
+				path.join(
+					path.dirname(dir),
+					normalName
+				)
+			);
+		}
+	} else {
+		// foo.jule
+		const testName = base + "_test" + ext;
+		// module/foo_test.jule
+		candidates.push(
+			path.join(dir, testName)
+		);
+		// module/test/foo_test.jule
+		candidates.push(
+			path.join(
+				dir,
+				"test",
+				testName
+			)
+		);
+	}
+	for (const candidate of candidates) {
+		if (fs.existsSync(candidate)) {
+			return candidate;
+		}
+	}
+	return undefined;
+}
+
+export function toggleTestFile(): void {
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return;
+	}
+	const file = editor.document.uri.fsPath;
+	const target = findTestFile(file);
+	if (target) {
+		vscode.window.showTextDocument(
+			vscode.Uri.file(target)
+		);
+	}
+}
+
 // Formats document with julefmt, if possible.
 // Designed for the vscode.languages.registerDocumentFormattingEditProvider registration.
 export function format(document: vscode.TextDocument): Promise<vscode.TextEdit[]> {

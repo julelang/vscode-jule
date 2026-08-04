@@ -35,6 +35,10 @@
       {
         "command": "jule.version",
         "title": "Jule: Show julec version"
+      },
+      {
+        "command": "jule.toggleTestFile",
+        "title": "Jule: Toggle Test File"
       }
     ],
     "snippets": [

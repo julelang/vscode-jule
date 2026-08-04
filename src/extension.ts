@@ -8,6 +8,7 @@ enum CommandKind {
 // All commands of the extension.
 const commands = [
 	{ command: 'jule.version', handler: command.version, kind: CommandKind.Command },
+	{ command: 'jule.toggleTestFile', handler: command.toggleTestFile, kind: CommandKind.Command },
 ];
 
 // This method is called when the extension is activated.
